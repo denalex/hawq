@@ -16,6 +16,11 @@
 # specific language governing permissions and limitations
 # under the License.
 
+PARENT_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+# Default PXF_HOME
+export PXF_HOME=${PXF_HOME:=$PARENT_SCRIPT_DIR}
+
 # Path to HDFS native libraries
 export LD_LIBRARY_PATH=/usr/lib/hadoop/lib/native:${LD_LIBRARY_PATH}
 
@@ -23,14 +28,14 @@ export LD_LIBRARY_PATH=/usr/lib/hadoop/lib/native:${LD_LIBRARY_PATH}
 export JAVA_HOME=${JAVA_HOME:=/usr/java/default}
 
 # Path to Log directory
-export PXF_LOGDIR=/var/log/pxf
+export PXF_LOGDIR=${PXF_HOME}/logs
 export CATALINA_OUT=${PXF_LOGDIR}/catalina.out
 
 # Path to Run directory
-export PXF_RUNDIR=/var/run/pxf
+export PXF_RUNDIR=${PXF_HOME}/run
 
 # Configured user
-export PXF_USER=pxf
+export PXF_USER=gpadmin
 
 # Port
 export PXF_PORT=51200

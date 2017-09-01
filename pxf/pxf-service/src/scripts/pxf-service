@@ -22,7 +22,8 @@
 
 
 if [ -z $PXF_HOME ]; then
-    env_script=/etc/pxf/conf/pxf-env.sh
+    parent_script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+    env_script=$parent_script_dir/conf/pxf-env.sh
 else
     env_script=$PXF_HOME/conf/pxf-env.sh
 fi
@@ -209,9 +210,13 @@ function doInit()
 		return 0
 	fi
 
-    createInstance || return 1
+	generatePrivateClasspath || return 1
+	createInstance || return 1
 	configureInstance || return 1
 	deployWebapp || return 1
+	createLogsDir || return 1
+	createRunDir  || return 1
+	
 }
 
 #
@@ -254,6 +259,35 @@ function commandWebapp()
     popd
 }
 
+function createLogsDir()
+{
+    mkdir -p $PXF_LOGDIR
+    chown -R $instance_owner $PXF_LOGDIR
+    chmod 700 $PXF_LOGDIR
+    return 0
+}
+
+function createRunDir()
+{
+    mkdir -p $PXF_RUNDIR
+    chown -R $instance_owner $PXF_RUNDIR
+    chmod 700 $PXF_RUNDIR
+    return 0
+}
+
+function generatePrivateClasspath()
+{
+    sed -e "s|PXF_HOME|$PXF_HOME|g" conf/pxf-private.classpath.template > $PXF_HOME/conf/pxf-private.classpath
+    sed -i -e "s|HADOOP_HOME|$hadoop_home|g" $PXF_HOME/conf/pxf-private.classpath
+    sed -i -e "s|HBASE_HOME|$hbase_home|g" $PXF_HOME/conf/pxf-private.classpath
+    sed -i -e "s|HIVE_HOME|$hive_home|g" $PXF_HOME/conf/pxf-private.classpath
+}
+
+function printUsage()
+{ 
+    echo $"Usage: $0 {start|stop|restart|init --hadoop-home HADOOP_LOCATION [--hive-home HIVE_LOCATION --hbase-home HBASE_LOCATION]|status}"
+
+}
 # 
 # doStart handles start command
 # command is executed as the user $pxf_user
@@ -297,6 +331,33 @@ command=$1
 
 case "$command" in
 	"init" )
+		shift
+		while [[ $# -gt 1 ]]
+		do
+			name="$1"
+			value="$2"
+			case $name in
+				--hadoop-home)
+				hadoop_home="$2"
+				shift
+				;;
+				--hive-home)
+                                hive_home="$2"
+                                shift
+                                ;;
+				--hbase-home)
+                                hbase_home="$2"
+                                shift
+                                ;;
+				*)
+			esac
+			shift
+		done
+		if [ -z $hadoop_home ]; then
+			echo "ERROR: please provide hadoop-home"
+			printUsage
+			exit 2
+		fi
 		doInit
 		;;
 	"start" )
@@ -314,7 +375,7 @@ case "$command" in
 		doStatus
 		;;
 	* )
-		echo $"Usage: $0 {start|stop|restart|init|status}"
+		printUsage
 		exit 2
 		;;
 esac
