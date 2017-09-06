@@ -614,6 +614,7 @@ task install(type: Copy, dependsOn: [subprojects.build, tomcatGet]) {
     from("pxf-service/src/configs/pxf-site.xml") { into 'conf' }
     from("pxf-service/src/scripts/pxf-env.sh") { into 'conf' }
     from("pxf-service/src/configs/tomcat") { into 'tomcat-templates' }
+    from("pxf-service/src/configs/templates") { into 'conf-templates' }
 }
 
 task bundle(type: Tar) {

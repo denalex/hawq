@@ -211,6 +211,7 @@ function doInit()
 	fi
 
 	generatePrivateClasspath || return 1
+	generateLog4j || return 1
 	createInstance || return 1
 	configureInstance || return 1
 	deployWebapp || return 1
@@ -277,10 +278,15 @@ function createRunDir()
 
 function generatePrivateClasspath()
 {
-    sed -e "s|PXF_HOME|$PXF_HOME|g" conf/pxf-private.classpath.template > $PXF_HOME/conf/pxf-private.classpath
+    sed -e "s|PXF_HOME|$PXF_HOME|g" $PXF_HOME/conf-templates/pxf-private.classpath.template > $PXF_HOME/conf/pxf-private.classpath
     sed -i -e "s|HADOOP_HOME|$hadoop_home|g" $PXF_HOME/conf/pxf-private.classpath
     sed -i -e "s|HBASE_HOME|$hbase_home|g" $PXF_HOME/conf/pxf-private.classpath
     sed -i -e "s|HIVE_HOME|$hive_home|g" $PXF_HOME/conf/pxf-private.classpath
+}
+
+function generateLog4j()
+{
+    sed -e "s|PXF_HOME|$PXF_HOME|g" $PXF_HOME/conf-templates/pxf-log4j.properties.template > $PXF_HOME/conf/pxf-log4j.properties
 }
 
 function printUsage()

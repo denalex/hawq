@@ -19,6 +19,9 @@
 # Adding new resources should be done using pxf-public.classpath file.
 ##################################################################
 
+# PXF Configuration
+PXF_HOME/conf
+
 # PXF Libraries
 PXF_HOME/lib/pxf-hbase-*[0-9].jar
 PXF_HOME/lib/pxf-hdfs-*[0-9].jar
@@ -27,8 +30,7 @@ PXF_HOME/lib/pxf-json-*[0-9].jar
 PXF_HOME/lib/pxf-jdbc-*[0-9].jar
 
 # Hadoop configurations
-HADOOP_HOME/etc/hadoop/core-site.xml
-HADOOP_HOME/etc/hadoop/hdfs-site.xml
+HADOOP_HOME/etc/hadoop/
 
 # Hadoop Libraries
 HADOOP_HOME/share/hadoop/hdfs/hadoop-hdfs-*[0-9].jar
@@ -49,6 +51,8 @@ HADOOP_HOME/share/hadoop/common/lib/htrace-core*.jar
 HADOOP_HOME/share/hadoop/common/lib/jetty-*.jar
 HADOOP_HOME/share/hadoop/common/lib/jackson-core-asl-*[0-9].jar
 HADOOP_HOME/share/hadoop/common/lib/jackson-mapper-asl-*[0-9].jar
+HADOOP_HOME/share/hadoop/hdfs/lib/jackson-core-asl-1.8.8.jar
+HADOOP_HOME/share/hadoop/hdfs/lib/jackson-mapper-asl-1.8.8.jar
 HADOOP_HOME/share/hadoop/common/lib/jersey-core-*[0-9].jar
 HADOOP_HOME/share/hadoop/common/lib/jersey-server-*[0-9].jar
 HADOOP_HOME/share/hadoop/common/lib/log4j-*[0-9].jar
