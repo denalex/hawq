@@ -253,7 +253,7 @@ function commandWebapp()
 {
     command=$1
     pushd $instance_root
-    su $pxf_user -c "$instance_root/$instance_name/bin/catalina.sh $command"
+    sudo -u $pxf_user $instance_root/$instance_name/bin/catalina.sh $command
     if [ $? -ne 0 ]; then
         return 1
     fi
