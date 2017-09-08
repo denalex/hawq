@@ -58,7 +58,7 @@ help:
 	@echo	"  - doc - creates aggregate javadoc under docs"
 
 all:
-	./gradlew clean release $(BUILD_PARAMS) $$(echo $$(for i in $$(echo ${PLUGINS_EXCLUDE_RPM} | sed 's/,/ /g'); do echo -x $$i:buildRpm ; done))
+	./gradlew clean release -x test $(BUILD_PARAMS) $$(echo $$(for i in $$(echo ${PLUGINS_EXCLUDE_RPM} | sed 's/,/ /g'); do echo -x $$i:buildRpm ; done))
 	
 unittest:
 	./gradlew test
