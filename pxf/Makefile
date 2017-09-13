@@ -86,7 +86,7 @@ tomcat:
 	./gradlew tomcatRpm $(BUILD_PARAMS)
 
 install:
-	./gradlew install $(BUILD_PARAMS)
+	./gradlew install -x test $(BUILD_PARAMS)
 
 bundle:
 	./gradlew bundle $(BUILD_PARAMS)
