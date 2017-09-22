@@ -35,7 +35,7 @@ export CATALINA_OUT=${PXF_LOGDIR}/catalina.out
 export PXF_RUNDIR=${PXF_HOME}/run
 
 # Configured user
-export PXF_USER=gpadmin
+export PXF_USER=${PXF_USER:-gpadmin}
 
 # Port
-export PXF_PORT=51200
+export PXF_PORT=${PXF_PORT:-51200}
