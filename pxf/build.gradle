@@ -267,7 +267,8 @@ project('pxf-service') {
             filter(ReplaceTokens,
                     tokens: ['pxfLogDir'     :  databaseProperties.pxfLogDir,
                              'pxfRunDir'     :  databaseProperties.pxfRunDir,
-                             'pxfDefaultUser': (databaseProperties.pxfDefaultUser == null ? "" : databaseProperties.pxfDefaultUser)])
+                             'pxfDefaultUser': (databaseProperties.pxfDefaultUser == null ? "" : databaseProperties.pxfDefaultUser),
+                             'pxfDefaultUserImpersonation': (databaseProperties.pxfDefaultUserImpersonation == null ? "" : databaseProperties.pxfDefaultUserImpersonation)])
             into "/etc/pxf-${project.version}/conf"
         }
         
@@ -639,7 +640,8 @@ task install(type: Copy, dependsOn: [subprojects.build, tomcatGet]) {
         filter(ReplaceTokens,
                 tokens: ['pxfLogDir'     : databaseProperties.pxfLogDir,
                          'pxfRunDir'     : databaseProperties.pxfRunDir,
-                         'pxfDefaultUser': (databaseProperties.pxfDefaultUser == null ? "" : databaseProperties.pxfDefaultUser)]) into 'conf'
+                         'pxfDefaultUser': (databaseProperties.pxfDefaultUser == null ? "" : databaseProperties.pxfDefaultUser),
+                         'pxfDefaultUserImpersonation': (databaseProperties.pxfDefaultUserImpersonation == null ? "" : databaseProperties.pxfDefaultUserImpersonation)]) into 'conf'
     }
     from("pxf-service/src/configs/tomcat") { into 'tomcat-templates' }
     from("pxf-service/src/configs/templates") { into 'conf-templates' }
