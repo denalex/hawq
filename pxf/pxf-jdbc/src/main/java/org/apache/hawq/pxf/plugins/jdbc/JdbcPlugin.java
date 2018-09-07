@@ -94,8 +94,10 @@ public class JdbcPlugin extends Plugin {
         String batchSizeRaw = input.getUserProperty("BATCH_SIZE");
         if (batchSizeRaw != null) {
             try {
-                batchSize = Integer.parseUnsignedInt(batchSizeRaw);
-                if (batchSize == 0) {
+                batchSize = Integer.parseInt(batchSizeRaw);
+                if (batchSize < 1) {
+                    throw new NumberFormatException();
+                } else if (batchSize == 0) {
                     batchSize = 1;
                 }
                 batchSizeIsSetByUser = true;
